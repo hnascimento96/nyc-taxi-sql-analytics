@@ -1,0 +1,18 @@
+# Core engine
+# PySpark 4.3 requires Python >= 3.11 and Java 17+.
+# The [sql] extra pulls the pandas and pyarrow versions Spark SQL supports.
+pyspark[sql]==4.3.0
+
+# Data handling (PySpark 4.3 supports pandas >=2.2,<3.0 and pyarrow >=18.0)
+pandas==2.3.3
+pyarrow==26.0.1
+
+# Analysis and notebooks
+matplotlib==3.11.2
+jupyter==1.1.1
+
+# Data download
+requests==2.34.2
+
+# pytest
+pytest==9.2.0
