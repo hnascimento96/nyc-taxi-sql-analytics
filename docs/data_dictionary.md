@@ -90,3 +90,35 @@ Maps `PULocationID` / `DOLocationID` to readable locations. Expected columns: `L
 5. **Schema can change between periods.** The official dictionary names the field `airport_fee`, while the January 2024 file has `Airport_fee` **(observed)**. Names and types are compared across the three months during profiling.
 6. **Codes may appear that are not in the dictionary,** or new vendor codes may not appear at all. Code distributions are checked during profiling.
 7. **Records are updated periodically** (the user guide mentions every six months), so a later download of the same month may differ. Compare sizes in `download_log.csv`.
+## Schema validation (Jan–Mar 2024)
+
+The three monthly files were compared column by column (name, position and type).
+**Result: identical schemas** — 19 columns, same order, same types.
+
+| # | Column | Type |
+|---|---|---|
+| 0 | VendorID | int |
+| 1 | tpep_pickup_datetime | timestamp_ntz |
+| 2 | tpep_dropoff_datetime | timestamp_ntz |
+| 3 | passenger_count | bigint |
+| 4 | trip_distance | double |
+| 5 | RatecodeID | bigint |
+| 6 | store_and_fwd_flag | string |
+| 7 | PULocationID | int |
+| 8 | DOLocationID | int |
+| 9 | payment_type | bigint |
+| 10 | fare_amount | double |
+| 11 | extra | double |
+| 12 | mta_tax | double |
+| 13 | tip_amount | double |
+| 14 | tolls_amount | double |
+| 15 | improvement_surcharge | double |
+| 16 | total_amount | double |
+| 17 | congestion_surcharge | double |
+| 18 | Airport_fee | double |
+
+Notes:
+- `Airport_fee` is capitalized in all three files, while the official data dictionary
+  spells it `airport_fee`. Staging renames all columns to snake_case, so this has no effect downstream.
+- This table is the **expected schema**. From stage 3 on, the build checks each new file
+  against it before the union and stops with a clear error if anything differs.
